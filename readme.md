@@ -6,27 +6,34 @@
 
 ### some bugs
 1、运行CodeIdentification可以看到每个testData的识别效果。正确率为98%，有个阴间验证码trainData/5149.png,我也不晓得是5149还是5148，测试数据就这个错了。
+
 2、对浅色图片的识别效果不佳
+
 3、现在的代码只能识别固定位置的数字。HEU的验证码是最简单的一种，即只有数字0-9，位置固定，字符数为4，所以验证码图片分割split很简单。
 ## 使用方法:直接调用CodeIdentification中的 String Distinguish(String path)，path为要识别的验证码图片
 1、使用makeTrainData制作trainData
+
 2、使用train2char将trainData转为String
+
 3、CodeIdentification为测试方法
 
 ### 你也可以修改图片处理中的参数来达到更好的识别效果,比较重要的参数有
 
 1、binaryImage(BufferedImage image) 二值化方法中的阈值
 '''java
+
     //这里是阈值，白底黑字还是黑底白字，大多数情况下建议白底黑字，后面都以白底黑字为例
     double SW = 235;
 2、grayImage(BufferedImage bufferedImage)灰度化方法,试了几种目前这种是最好的
 '''java
+
     int gray = (int) ((b * 29 + g * 150 + r * 77 + 128) >> 8);
     //int gray = (int) ((r + g + b) / 3.0);
     //int gray = (int) (0.3 * r + 0.59 * g + 0.11 * b);
     //int gray = (int) (0.45 * r + 0.1 * g + 0.45 * b);
 3、getSharperPicture(BufferedImage originalPic) 锐化方法中的卷积矩阵
 '''java
+
     //        float edge = -1.0f, center = 9.0f;
     //        float[] data = {
     //                edge, edge, edge,
