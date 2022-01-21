@@ -6,9 +6,7 @@
 
 ### some bugs
 1、运行CodeIdentification可以看到每个testData的识别效果。正确率为98%，有个阴间验证码trainData/5149.png,我也不晓得是5149还是5148，测试数据就这个错了。
-    👇
 👉![avatar](data/testData/5149.jpg)👈
-    👆
 
 2、对浅色图片的识别效果不佳
 
