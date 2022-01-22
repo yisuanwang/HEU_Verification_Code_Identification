@@ -1,11 +1,15 @@
 package com.cjh.codedistinguish;
 
+import cn.hutool.core.img.ImgUtil;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +19,13 @@ public class CodeIdentification {
     /**
      * 将验证码分割成四个数字bufferedimage
      *
-     * @param path
+     * @param bufferedImage
      * @return
      * @throws IOException
      */
-    private static List<BufferedImage> splitImage(String path) throws IOException {
+    private static List<BufferedImage> splitImage(BufferedImage bufferedImage) throws IOException {
         int PIX_X = 19, PIX_Y = 5;//开始的像素位置
         final int UNIT_W = 10, UNIT_H = 16;//每个字符位置
-        File file = new File(path);
-        BufferedImage bufferedImage = ImageIO.read(file);
         List<BufferedImage> subImg_list = new ArrayList<BufferedImage>();
         for (int k = 0; k < 4; k++) {
             subImg_list.add(bufferedImage.getSubimage(PIX_X, PIX_Y, UNIT_W, UNIT_H));
@@ -417,13 +419,13 @@ public class CodeIdentification {
     /**
      * 验证码识别接口
      *
-     * @param path
+     * @param bi 待识别的验证码 bufferedImage格式
      * @return
      */
-    public static String Distinguish(String path) {
+    public static String Distinguish(BufferedImage bi) {
         StringBuilder stringBuilder = new StringBuilder("");
         try {
-            List<BufferedImage> bi_list = splitImage(path);
+            List<BufferedImage> bi_list = splitImage(bi);
             for (int i = 0; i < bi_list.size(); i++) {
                 BufferedImage bufferedImage = bi_list.get(i);
                 bufferedImage = getSharperPicture(bufferedImage);
@@ -437,6 +439,17 @@ public class CodeIdentification {
             System.err.println(e);
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * 因为学校官网下来的是图片base64编码，所以可以直接传入base64编码
+     *
+     * @param base64
+     * @return
+     */
+    public static String Distinguish(String base64) {
+        BufferedImage bufferedImage = ImgUtil.toImage(base64);
+        return Distinguish(bufferedImage);
     }
 
     /**
@@ -470,21 +483,70 @@ public class CodeIdentification {
     //5149 3365 要识别的验证码
 //    private static String url2 = + i + ".png";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+//
         /*
-        训练，文件名为正确的答案
+        训练1，文件路径传入，文件名为正确的答案，
          */
         List<String> paths = getAllFile("data\\testData\\", false);
-        int cnt=0,correct=0;
+        int cnt = 0, correct = 0;
         for (String path : paths) {
-            String filename = (new File(path).getName()).substring(0,4);
+            String filename = (new File(path).getName()).substring(0, 4);
             System.out.print(filename);
-            String res = Distinguish(path);
+
+            File file = new File(path);
+            BufferedImage bufferedImage = ImageIO.read(file);
+            String res = Distinguish(bufferedImage);
+
             System.out.println("\tans = " + res);
-            correct += filename.endsWith(res)?1:0;
+            correct += filename.endsWith(res) ? 1 : 0;
             cnt++;
         }
-        System.out.println("识别正确率: "+((float)correct/(float) cnt)*100 + "%");
+        System.out.println("识别正确率: " + ((float) correct / (float) cnt) * 100 + "%");
 
+        /*
+        测试二，识别base64编码
+        可以复制图片base64，前面加上 data:image/jpeg;base64,
+        比如：9398 👇，sb第二个add
+        data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a%0AHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy%0AMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIA%0AAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA%0AAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3%0AODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm%0Ap6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA%0AAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx%0ABhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK%0AU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3%0AuLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iii%0AgCG4uoLVN08qoD0z1P0HeiG6gngM0cqmMZy3TGPXPSq12skN/HdiF541jKFUGShz1A756VHYxpff%0AabqSP91cOu1G7hOhP49vbvWvJHl5v69CrK1y5DdwXDbY3JbaGAZSpIPcZ6imLqVm1wIFuEMhOBjo%0AT9elV7hWl1FI5cRExyC3dCSdx6k9MEDt79aqOzvZw6U1q8Mr7VLcbcDksD39ce9VGnF/1+PmNRRq%0A3F7b2pxNJtON2ApOBnGTjpzU6sGUMpBUjIIPBFZubtNQvWtokkUgZLkL84UYA7ngjrj8O9nTjG2n%0AweUzMgQAFuvHB/WolBKN0JqyLVFFFZkhRRRQBFcQme3eLeUDjBIGTjv+lI9tG9qLf5lQABdpwVx0%0AwfbAqaimpNDuVYLSRZVluLgzyICEJQKFBxnp34p62wF49yzFnZQi9gq+nvzzU9FNzbC7Kc1nOZnl%0At7x4TIQXUoGGQABjPTpU9vbpa26Qx52KOMnmpaKHNtWYXYUUUVIj/9k=
+        到浏览器查看
+         */
+        System.out.println("测试二...");
+        List<String> sb = new ArrayList<>();
+        sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigCK4uYbWMPM+0FgqgAksT0AA5J+lFvcw3UZeF9wDFWBBBUjqCDyD9aJYEeRZ/LV5olYRljjGev06DnFZ+mhZbrUhOuy7aQCVUJACbcJhs+mTng5PQcVzzqTjVUdLP/K++3y7a36Gbk1JLuaMU8U5kETh/LfY+OzYBx+tVv7XsPt32P7Svn7tu3Bxn0z0z/Xiqnh6JIYb+KMYRL2RVGc4Axii/tUlhi0W1i2xHa0pAwI4wc9f7xI4698+tYPEVnRjUilftq79ktvv6diOebgpIu3epWliwW4m2nbuwFLYGcZOAcDJxzVpWV0V0YMrDIYHIIrFzfx6tqT2UEUqMq5MhC4kCDABHJGCOuB15He9o7QtpFqYHZ4xGAGfOcjg9c45zx09OKujiJTquDVlr07O2/X5bFQm3Jpl2iiiuw1CiiigCpe2b3OySC4a3uI8hJFG4YOMgqeCOB+IFOs7P7L5jvIZp5SDJKygFiAB2HTjp71ZorL2MOfntr/S22vbS+5PIr8xUsbL7F9p/eb/ADp2m+7jbnHH6VnxaPqMEkskesYeVtzsbZSWP1J6eg6CtuiolhaUlFa6bWbW/oyXSi7Lt5szrjTrk3Mk9nqMluZSDIpjV1JAAGAenA59fwq1Z2kVjaR20IPloMDJyT3J/Op6KuFCEJuaWr8313t2v1tuUoRTugooorUo/9k=");
+        sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a\n" +
+                "HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy\n" +
+                "MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIA\n" +
+                "AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA\n" +
+                "AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3\n" +
+                "ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm\n" +
+                "p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA\n" +
+                "AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx\n" +
+                "BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK\n" +
+                "U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3\n" +
+                "uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iii\n" +
+                "gCG4uoLVN08qoD0z1P0HeiG6gngM0cqmMZy3TGPXPSq12skN/HdiF541jKFUGShz1A756VHYxpff\n" +
+                "abqSP91cOu1G7hOhP49vbvWvJHl5v69CrK1y5DdwXDbY3JbaGAZSpIPcZ6imLqVm1wIFuEMhOBjo\n" +
+                "T9elV7hWl1FI5cRExyC3dCSdx6k9MEDt79aqOzvZw6U1q8Mr7VLcbcDksD39ce9VGnF/1+PmNRRq\n" +
+                "3F7b2pxNJtON2ApOBnGTjpzU6sGUMpBUjIIPBFZubtNQvWtokkUgZLkL84UYA7ngjrj8O9nTjG2n\n" +
+                "weUzMgQAFuvHB/WolBKN0JqyLVFFFZkhRRRQBFcQme3eLeUDjBIGTjv+lI9tG9qLf5lQABdpwVx0\n" +
+                "wfbAqaimpNDuVYLSRZVluLgzyICEJQKFBxnp34p62wF49yzFnZQi9gq+nvzzU9FNzbC7Kc1nOZnl\n" +
+                "t7x4TIQXUoGGQABjPTpU9vbpa26Qx52KOMnmpaKHNtWYXYUUUVIj/9k=");
+        for (String str:sb){
+            System.out.println(Distinguish(str));
+        }
     }
+
+    private static void writeImage(BufferedImage sourceImg, String filename) {
+        File imageFile = new File(filename);
+        try (FileOutputStream outStream = new FileOutputStream(imageFile)) {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ImageIO.write(sourceImg, "png", out);
+            byte[] data = out.toByteArray();
+            outStream.write(data);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
 }
