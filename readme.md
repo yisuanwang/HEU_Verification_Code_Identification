@@ -9,7 +9,8 @@
 👉![avatar](data/testData/5149.jpg)👈
 
 2、对浅色图片的识别效果不佳，但是经过多次人工测试未发现错误的识别案例。
-👉![avatar](data/Screenshot_1642938565.png){:height="144" width="304"}👈
+<img src="data/Screenshot_1642938565.png" width="144px">
+👉![avatar](data/Screenshot_1642938565.png)👈
 👉![avatar2](data/Screenshot_1642939005.png =144x304)👈
 👉![avatar3](data/Screenshot_1642939044.png =144x304)👈
 👉![avatar4](data/Screenshot_1642939059.png =144x304)👈
