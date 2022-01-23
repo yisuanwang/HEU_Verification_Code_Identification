@@ -23,4 +23,5 @@ public class CharMap {
     public static Map<String, String> getCharMap() {
         return charMap;
     }
+
 }

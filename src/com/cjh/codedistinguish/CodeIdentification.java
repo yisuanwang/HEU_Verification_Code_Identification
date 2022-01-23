@@ -513,7 +513,9 @@ public class CodeIdentification {
          */
         System.out.println("测试二...");
         List<String> sb = new ArrayList<>();
+        //3128
         sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigCK4uYbWMPM+0FgqgAksT0AA5J+lFvcw3UZeF9wDFWBBBUjqCDyD9aJYEeRZ/LV5olYRljjGev06DnFZ+mhZbrUhOuy7aQCVUJACbcJhs+mTng5PQcVzzqTjVUdLP/K++3y7a36Gbk1JLuaMU8U5kETh/LfY+OzYBx+tVv7XsPt32P7Svn7tu3Bxn0z0z/Xiqnh6JIYb+KMYRL2RVGc4Axii/tUlhi0W1i2xHa0pAwI4wc9f7xI4698+tYPEVnRjUilftq79ktvv6diOebgpIu3epWliwW4m2nbuwFLYGcZOAcDJxzVpWV0V0YMrDIYHIIrFzfx6tqT2UEUqMq5MhC4kCDABHJGCOuB15He9o7QtpFqYHZ4xGAGfOcjg9c45zx09OKujiJTquDVlr07O2/X5bFQm3Jpl2iiiuw1CiiigCpe2b3OySC4a3uI8hJFG4YOMgqeCOB+IFOs7P7L5jvIZp5SDJKygFiAB2HTjp71ZorL2MOfntr/S22vbS+5PIr8xUsbL7F9p/eb/ADp2m+7jbnHH6VnxaPqMEkskesYeVtzsbZSWP1J6eg6CtuiolhaUlFa6bWbW/oyXSi7Lt5szrjTrk3Mk9nqMluZSDIpjV1JAAGAenA59fwq1Z2kVjaR20IPloMDJyT3J/Op6KuFCEJuaWr8313t2v1tuUoRTugooorUo/9k=");
+        //9398
         sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a\n" +
                 "HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy\n" +
                 "MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIA\n" +
@@ -532,20 +534,32 @@ public class CodeIdentification {
                 "weUzMgQAFuvHB/WolBKN0JqyLVFFFZkhRRRQBFcQme3eLeUDjBIGTjv+lI9tG9qLf5lQABdpwVx0\n" +
                 "wfbAqaimpNDuVYLSRZVluLgzyICEJQKFBxnp34p62wF49yzFnZQi9gq+nvzzU9FNzbC7Kc1nOZnl\n" +
                 "t7x4TIQXUoGGQABjPTpU9vbpa26Qx52KOMnmpaKHNtWYXYUUUVIj/9k=");
+        // 1213
+        sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a\n" +
+                "    HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy\n" +
+                "    MjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIA\n" +
+                "    AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA\n" +
+                "    AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3\n" +
+                "    ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm\n" +
+                "    p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA\n" +
+                "    AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx\n" +
+                "    BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK\n" +
+                "    U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3\n" +
+                "    uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iii\n" +
+                "    gBk00VvBJPPIkUUal3kdgqqoGSST0AFQw6jaT6XHqaToLJ4RcCZ/kURld245xgY556Vi+PNPttR8\n" +
+                "    EaulyrssNrLOgWRkG9ELKTtI3AEA4ORkDjijQNOtNV+H2h2l9AlxbNYWrNE/KsVVGGR3GQOOh6Hi\n" +
+                "    qsrXNVCPJzPuT6F4x0DxLPNBpGopcSxKHeMo6NtzjIDAZGeuOmRnqK0zqNoNUXTDOn21oTcCEct5\n" +
+                "    YYKWPoMkAZ6846HHMxwy+I/HtvqixummaGs8EMrKUM903ySAA/ejUDGePmBwWANUrPT7ax+Nl09u\n" +
+                "    rhrrRDPMXkZyzmcLn5icDCqABwABgVXKi3Thd27X/r+vI6bVfEuk6LP5F9cusvktcNHFBJKyRKcF\n" +
+                "    2CKdq57nA6+hrThmiuII54JElikUOkiMGVlIyCCOoIrJ1K0udOt9Rv8AQNNtJ9Vu8PJ58pTzCse1\n" +
+                "    OcHOMKAuVHJORkk1fAY01fA2kjSXd7MQ4DOpVmfJ8wkEnB37uASPQkYqWly3RDjHk5l/X+X6nR0U\n" +
+                "    UVJkFFFFAFLV7D+1dFv9O83yvtdvJB5m3ds3KVzjIzjPSqEmhXaeDItBsdVezuYrWO2W+SLLAKAC\n" +
+                "    QueCQCOuRnIORW5RTTaKU2lZepyHhnwprnh57O3bxOlxpVspX7EmmRxBhg4+cEnO47iepOc9TWt/\n" +
+                "    YP8AxWv/AAkX2n/mHfYfs/l/9NN+7dn8MY/Gtmim5Nu5UqspNt9fJHOah4bv5NZa/wBI1+40tbll\n" +
+                "    a+hWFJlmKgKGXfkRttG0kAg4XI451tJ0u20XSbXTbNdtvbRiNeAC2OrHAAyTkk45JJq7RScm1YTn\n" +
+                "    JqzCiiikQf/Z");
         for (String str:sb){
             System.out.println(Distinguish(str));
-        }
-    }
-
-    private static void writeImage(BufferedImage sourceImg, String filename) {
-        File imageFile = new File(filename);
-        try (FileOutputStream outStream = new FileOutputStream(imageFile)) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            ImageIO.write(sourceImg, "png", out);
-            byte[] data = out.toByteArray();
-            outStream.write(data);
-        } catch (Exception e) {
-            System.out.println(e.toString());
         }
     }
 
