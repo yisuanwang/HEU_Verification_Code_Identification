@@ -2,15 +2,15 @@ package com.cjh.codedistinguish;
 
 import cn.hutool.core.img.ImgUtil;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class CodeIdentifyUtil {
     private static Map<String, String> charMap = new HashMap<>();
@@ -452,13 +452,33 @@ public class CodeIdentifyUtil {
     }
 
     /**
+     * base64 编码转换为 BufferedImage
+     *
+     * @param base64
+     * @return
+     */
+    private static BufferedImage base64ToBufferedImage(String base64) {
+        Base64.Decoder decoder = Base64.getDecoder();
+//        BASE64Decoder decoder = new sun.misc.BASE64Decoder();
+        try {
+            byte[] bytes1 = decoder.decode(base64);
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);
+            return ImageIO.read(bais);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 因为学校官网下来的是图片base64编码，所以可以直接传入base64编码
      *
      * @param base64
      * @return
      */
     public static String Distinguish(String base64) {
-        BufferedImage bufferedImage = ImgUtil.toImage(base64);
+//        BufferedImage bufferedImage = ImgUtil.toImage(base64);
+        BufferedImage bufferedImage = base64ToBufferedImage(base64);
         return Distinguish(bufferedImage);
     }
 

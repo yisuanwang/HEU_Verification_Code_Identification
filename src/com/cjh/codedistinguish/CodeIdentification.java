@@ -7,11 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -448,7 +446,8 @@ public class CodeIdentification {
      * @return
      */
     public static String Distinguish(String base64) {
-        BufferedImage bufferedImage = ImgUtil.toImage(base64);
+//        BufferedImage bufferedImage = ImgUtil.toImage(base64);
+        BufferedImage bufferedImage = base64ToBufferedImage(base64);
         return Distinguish(bufferedImage);
     }
 
@@ -479,6 +478,24 @@ public class CodeIdentification {
         return list;
     }
 
+    /**
+     * base64 编码转换为 BufferedImage
+     *
+     * @param base64
+     * @return
+     */
+    private static BufferedImage base64ToBufferedImage(String base64) {
+        Base64.Decoder decoder = Base64.getDecoder();
+//        BASE64Decoder decoder = new sun.misc.BASE64Decoder();
+        try {
+            byte[] bytes1 = decoder.decode(base64);
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);
+            return ImageIO.read(bais);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     //5149 3365 要识别的验证码
 //    private static String url2 = + i + ".png";
@@ -558,6 +575,9 @@ public class CodeIdentification {
                 "    YP8AxWv/AAkX2n/mHfYfs/l/9NN+7dn8MY/Gtmim5Nu5UqspNt9fJHOah4bv5NZa/wBI1+40tbll\n" +
                 "    a+hWFJlmKgKGXfkRttG0kAg4XI451tJ0u20XSbXTbNdtvbRiNeAC2OrHAAyTkk45JJq7RScm1YTn\n" +
                 "    JqzCiiikQf/Z");
+
+        sb.add("/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAeAFADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigChq2s2Gh2q3Ooz+TCziMNsZssQTjCg9gabp2u6Zq1hLfWd2r2sLFZJWUoFIAJzuA4AIOag1iw1S71PS5rC6toYbV5JJRNGXyxQqpABGcBm/iHXPOKgsrldbl1PRNYt4ZpbGWMymMERSq3zxnaSSDwMqSRx1IOKYF7T9d07VJfKtZ2MnlLMEkieMtGejqGA3L7jI/Om/8JDpf277H9q/e+d9n3eW3l+bjPl+Zjbu9s5zx1rLndn8d6cupwxxBIZ/7OMbF/Mc43ljxtIQD5cEfMfmJAFQeJ7aDTdAt7D7HDF4eSWFbt0Zi6JvzgKMEgsFywYt8xO0nmiwGtq3inRdDulttRvPJmZBIF8p2ypJGcqD3BrTtriK7tYbmB98MyLJG2CMqRkHB9qxZNP15Nb1O+tbywEc0USW0c8LOcIGOCVK7RuZjn5uvtir2havHruiW2pRxNEsynKMclSCVIz3GQef5UAaNFFFIAooooAydV0aW9uEvbG+aw1BIjCJ1hSQMhZWKsGHI+XjkYyagtvC8CadeW9zd3Nxc3rrLPeZCS+YuNpUqPlClcqOQOnSt2incDE07Q7qG8ivdV1RtSuoFdIGNvHEsYfbkgAZ3fLjOehIxVZPCkoP2OXVppdERlaLT3iRsBWDBGkYFmQEYx6YGeOekoouBgXfh26a5mfTdZm063upTLdQxQxncSqqSjYyjELnPPJz9dXTrCDS9Ot7G2XbDAgReACfUnAHJPJPck1aopXAKKKKAP/Z");
+
         for (String str:sb){
             System.out.println(Distinguish(str));
         }
