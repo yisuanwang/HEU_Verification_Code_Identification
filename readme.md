@@ -9,12 +9,12 @@
 👉![avatar](data/testData/5149.jpg)👈
 
 2、对浅色图片的识别效果不佳，但是经过多次人工测试未发现错误的识别案例。
-<img src="data/Screenshot_1642938565.png" width="144px">
-👉![avatar](data/Screenshot_1642938565.png)👈
-👉![avatar2](data/Screenshot_1642939005.png =144x304)👈
-👉![avatar3](data/Screenshot_1642939044.png =144x304)👈
-👉![avatar4](data/Screenshot_1642939059.png =144x304)👈
-👉![avatar5](data/Screenshot_1642939067.png =144x304)👈
+<img src="data/Screenshot_1642938565.png" width="720px">
+<img src="data/Screenshot_1642939005.png" width="720px">
+<img src="data/Screenshot_1642939044.png" width="720px">
+<img src="data/Screenshot_1642939059.png" width="720px">
+<img src="data/Screenshot_1642939067.png" width="720px">
+
 
 3、现在的代码只能识别固定位置的数字。HEU的验证码是最简单的一种，即只有数字0-9，位置固定，字符数为4，所以验证码图片分割split很简单。
 ### 制作标准字模
