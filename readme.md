@@ -8,8 +8,7 @@
 1、运行CodeIdentification可以看到每个testData的识别效果。正确率为98%，有个阴间验证码trainData/5149.png,我也不晓得是5149还是5148，测试数据就这个错了。
 👉![avatar](data/testData/5149.jpg)👈
 
-2、对浅色图片的识别效果不佳
-👉![avatar](data/Screenshot_1642938565.png)👈
+2、对浅色图片的识别效果不佳 👉![avatar](data/Screenshot_1642938565.png)👈
 
 3、现在的代码只能识别固定位置的数字。HEU的验证码是最简单的一种，即只有数字0-9，位置固定，字符数为4，所以验证码图片分割split很简单。
 ### 制作标准字模
